@@ -38,6 +38,20 @@ namespace CSharpPlayground
             m.myField.Should().Be(5); // 6 <- in ref example
         }
 
+        [Test]
+        public void RefReadonlyGetterTest()
+        {
+            MyApp m = new MyApp();
+            ref readonly int refReadonlyField = ref m.GetReadonlyField();
+            refReadonlyField.Should().Be(50);
+            //refReadonlyField = 60;
+            //m.myReadonlyField = 60;
+            refReadonlyField.Should().Be(50);
+            m.myReadonlyField.Should().Be(50);
+
+            var refReadonlyField2 = m.GetReadonlyField();
+        }
+
     }
     class MyApp
     {
@@ -46,6 +60,10 @@ namespace CSharpPlayground
 
         public int myField = 5;
         public ref int GetField() { return ref myField; }
+
+        public readonly int myReadonlyField = 50;
+        public ref readonly int GetReadonlyField() { return ref myReadonlyField; }
+
     }
 
 }
